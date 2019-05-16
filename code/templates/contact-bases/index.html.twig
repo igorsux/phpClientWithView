@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Список контактов
+{% endblock title %}
+{% block body %}
+    <div class="col-md-4">
+        <div class="col-md-12">
+            <a href="{{ path('bases') }}" class="btn btn-secondary">
+                назад
+            </a>
+        </div>
+        <form method="GET" id="filterForm">
+            <div class="col-md-12">
+                <input class="form-control" name="search" value="{{ search ?? "" }}">
+            </div>
+            {% include 'contact-bases/type-selector.html.twig' with {'name': "id", 'type': 'id', 'title': 'id' } %}
+            {% for map in mapping %}
+                {% include 'contact-bases/type-selector.html.twig' with {'name': map.name, 'type': map.type, 'title': map.title } %}
+            {% endfor %}
+            <input type="hidden" id="page" name="page" value="{{ page ?? 1 }}">
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Сортировка</label>
+                </div>
+                <div class="col-md-6">
+                    <select name="sortingField">
+                    {% for map in mapping %}
+                        <option value="{{ map.name }}" {% if sortingField == map.name %} selected{% endif %}>
+                            {{ map.title ? map.title : (map.name | trans)}}
+                        </option>
+                    {% endfor %}
+                    </select> -
+                    <select name="sortingDirection">
+                        <option value="desc" {% if sortingDirection == 'desc' %} selected{% endif %}>
+                            desc
+                        </option>
+                        <option value="asc" {% if sortingDirection == 'asc' %} selected{% endif %}>
+                            asc
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <input class="btn btn-primary" type="submit">
+            <input class="btn btn-primary" type="submit" name="download" value="Скачать">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Перенести
+            </button>
+            <input class="btn btn-primary" type="submit" name="move" value="Перенести">
+            <a href="{{ resetAction }}" class="btn btn-secondary">Сбросить</a>
+        </form>
+          <div class="col-md-12">
+            {% if request is defined %}
+                Запрос:
+                {{dump(request)}}
+            {% endif %}
+            {% if response is defined %}
+                Ответ:
+                {{dump(response)}}
+            {% endif %}
+            {% if endTime is defined %}
+                Время исполнения запроса
+                <b>{{ endTime }} </b> МС
+            {% endif %}
+          </div>
+    </div>
+    <div class="col-md-8">
+        {% include 'contact-bases/tabale.html.twig' %}
+        <div class="col-md-12">
+            <div class="dataTables_paginate paging_simple_numbers" id="example_paginate">
+                {% include 'contact-bases/pagintor.html.twig' %}
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Перенос</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block javascripts %}
+    <script language="JavaScript">
+        $(document).ready(function () {
+
+            function updateData() {
+                $('#filterForm').submit();
+            }
+
+            $('.pageChange').click(function () {
+                var page = this.getAttribute('data-dt-idx');
+                console.log(page);
+                if ($('#page').val() != page) {
+                    $('#page').val(page);
+                    updateData();
+                }
+            });
+
+            function orderUpdate(type) {
+                if ($('#orderField').val() == type) {
+                    if ($('#orderDirection').val() == 'desc') {
+                        $('#orderDirection').val('asc');
+                    } else {
+                        $('#orderDirection').val('desc');
+                    }
+                } else {
+                    $('#orderField').val(type);
+                    $('#orderDirection').val('desc');
+                }
+            }
+
+            $('.sort-order').click(function () {
+                orderUpdate(this.getAttribute('orderType'));
+                updateData();
+            });
+
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Главная
+{% endblock title %}
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-5">
+        <h3>Логин</h3>
+        <p>{{ info.login }}</p>
+        <h3>Баланс</h3>
+        <p>{{ info.balance }}</p>
+        <h3>Активность</h3>
+        <p>{{ info.active }}</p>
+        <h3>Овердрафт</h3>
+        <p>{{ info.overdraft ?? 'нету' }}</p>
+        <p>{{ dump(dictionaryInfo) }}</p>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-info" href="{{ path('bases') }}">
+            Базы
+        </a>
+        <a class="btn btn-info" href="{{ path('process') }}">
+            Процессы
+        </a>
+        <br>
+        <br>
+        <a class="btn btn-info" href="{{ path('notifications') }}">
+            Аккаунты уведомлений
+        </a>
+        <br>
+        <br>
+        <a class="btn btn-info" href="{{ path('templates') }}">
+            Шаблоны
+        </a>
+        <a class="btn btn-info" href="{{ path('operator-list') }}">
+            Операторы
+        </a>
+    </div>
+    <div class="col-md-2">
+        <a class="btn btn-info" href="{{ path('detatlization') }}">
+            Детализация
+        </a>
+        <br>
+        <br>
+        <a class="btn btn-info" href="{{ path('sender-names') }}">
+            Имена отправителей
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <br>
+        <a class="btn btn-danger" href="{{ path('lk-balance') }}">
+            lk-balance
+        </a>
+        <a class="btn btn-danger" href="{{ path('lk-send') }}">
+            lk-send
+        </a>
+    </div>
+    <div>
+        <a class="btn btn-warning" href="{{ path('inn-actin') }}">
+            inn
+        </a>
+        <a class="btn btn-warning" href="{{ path('sender-name-vk-info') }}">
+            vk-info
+        </a>
+    </div>
+{% endblock %}

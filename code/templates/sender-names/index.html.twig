@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Имена отправителей
+{% endblock title %}
+{% block body %}
+    <div class="col-md-6">
+        {{ dump(requestData) }}<br>
+        Время{{ dump(timeResponse) }}
+    </div>
+    <div class="col-md-6">
+        {{ dump(response) }}
+    </div>
+    <div class="col-md-8">
+        <a class="btn btn-default" href="{{ createSmsAction ?? "#" }}">
+            СоздатьS
+        </a> <a class="btn btn-default" href="{{ createViberAction ?? "#" }}">
+            СоздатьV
+        </a>
+        <a href="{{ path('index') }}" class="btn btn-warning">
+            назад
+        </a>
+    </div>
+    <br>
+    {% include 'sender-names/table.html.twig' %}
+{% endblock body %}

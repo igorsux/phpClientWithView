@@ -1,0 +1,6 @@
+{% extends 'tables/items.html.twig' %}
+{% block action %}
+    <a class="btn btn-info" href="{{path('sender-name-sms-show', {'senderNameId': item.id})}}">Показать</a>
+    <a class="btn btn-info"  href="#">Обновить</a>
+    <a class="btn btn-danger" href="#">Удалить</a>
+{% endblock action %}

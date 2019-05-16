@@ -1,0 +1,35 @@
+version: '3'
+services:
+  php:
+    build:
+      context: ./docker/php
+    user: 1000:1000
+    working_dir: /code
+    volumes:
+      - ./code:/code
+    networks:
+      - redsms_redsms
+    logging:
+      driver: syslog
+      options:
+          tag: "php-test-api"
+          syslog-facility: "daemon"
+  web:
+    image: nginx:1.15.7
+    ports:
+      - "8088:80"
+    volumes:
+      - ./code:/code
+      - ./docker/web/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - phs4
+    networks:
+      - redsms_redsms
+    logging:
+      driver: syslog
+      options:
+          tag: "nginx-test-api"
+          syslog-facility: "daemon"
+networks:
+  redsms_redsms:
+    external: true

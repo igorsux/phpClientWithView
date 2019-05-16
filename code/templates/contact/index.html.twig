@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Контакт
+{% endblock title %}
+{% block body %}
+
+    {% for map in mapping %}
+        <div class="col-md-7">
+            <b>{{ map.title ? map.title : (map.name | trans)}} </b>: {{ contact[map.name] ?? 'Пусто' }}
+        </div>
+    {% endfor %}
+    <div class="col-md-2">
+        <a href="{{ path('base', {'baseId' : baseId }) }}" class="btn btn-secondary">
+            назад
+        </a>
+    </div>
+{% endblock %}

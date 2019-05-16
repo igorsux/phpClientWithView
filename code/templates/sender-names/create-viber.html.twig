@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Создать имя
+{% endblock title %}
+{% block body %}
+
+    <div class="col-md-12">
+        <a href="{{ path("sender-names") }}" class="btn btn-warning">назад</a>
+        <h2>Создать имя</h2>
+    </div>
+    <form method="post" action="{{ action }}">
+        <div class="col-md-1">
+            <br>
+            Общая информация
+        </div>
+        <div class="col-md-11">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="nameSn">Имя отправителя</label>
+                    <input id="nameSn" class="form-control" type="text" name="name" placeholder="Название">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Адресс сайта</label>
+                    <input type="text" class="form-control" name="websiteAddress" id="exampleInputPassword1" placeholder="http://">
+                </div>
+                <div class="form-group">
+                    <label for="country">Страна местоположения компании</label>
+                    <select id="country" class="form-control" name="companyCountry">
+                        <option value="Россия">Россия</option>
+                        <option value="Украина">Украина</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="country">Вид деятельности</label>
+                        <select id="country" class="form-control" name="activity">
+                            <option value="ru">Все типы</option>
+                            <option value="it">it</option>
+                            <option value="Маркетинг">Маркетинг</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="country">Тип сообщения</label>
+                        <select id="country" class="form-control" name="messagesType">
+                            <option value="ru">Все типы</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="message_ex">Пример сообщения</label><br>
+                        <textarea name="sampleMessages" id="message_ex"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <br>
+            Настройки
+        </div>
+        <div class="col-md-11">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Объем рассылок</label>
+                    <input type="text" class="form-control" name="predictionVolume" id="exampleInputPassword1" placeholder="0-20000">
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="country">Тип сервиса</label>
+                        <select id="country" class="form-control" name="serviceType">
+                            <option value="dispatch">Рассылка</option>
+                            <option value="chat">Чат</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="country">Дата включения</label>
+                        <select id="country" class="form-control" name="activationPeriod">
+                            <option value="current">в текущем месяце</option>
+                            <option value="next">в следующем месяце</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="logoFileId" placeholder="logoFileId">
+                </div>
+                <div class="form-group">
+                    <label for="country">Страна местоположения компании</label>
+                    <select id="country" class="form-control" name="recipientCountries[]" multiple>
+                        <option value="Россия">Россия</option>
+                        <option value="Украина">Украина</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-11">
+            <div>
+                <br>
+                <button type="submit" name="status" value="draft" class="btn btn-success">Создать</button>
+                <button type="submit" name="status" value="check" class="btn btn-warning">Отправить на модерацию
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock body %}

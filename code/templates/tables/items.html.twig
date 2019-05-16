@@ -1,0 +1,26 @@
+<div class="col-md-12">
+    {% for item in items %}
+        <div class="col-md-12" style="width: 100%; border: 1px double #655a5c;">
+            {% for id, field in item %}
+                {% if (field) %}
+                    <span title="{{ id }}" class="col-sm-1" style="width: 160px; border-left: 1px double #cdb6ac;">
+                        {% if (field is iterable) %}
+                            []
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                        </span>
+                {% else %}
+                    <span title="{{ id }}"  class="col-sm-1" style="width: 40px; border-left: 1px double #cdb6ac;">-</span>
+                {% endif %}
+            {% endfor %}
+            <span class="col-sm-1" style="float: right; width: 400px;  border-left: 1px double #cdb6ac;">
+                {% block action %}
+                        <a href="#">Показать</a>
+                        <a href="#">Обновить</a>
+                        <a style="color: red" href="#">Удалить</a>
+                {% endblock action %}
+                </span>
+        </div><br>
+    {% endfor %}
+</div>

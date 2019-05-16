@@ -1,0 +1,96 @@
+<div class="row">
+    <div class="col-md-4">
+        <label  title="{{ type }}">{{ title != "" ? title : ( name | trans )}}</label>
+    </div>
+    <div class="col-md-1">
+    <input type="checkbox" name="check[{{ name }}]" {% if name in fieldsArray %}checked{% endif %}>
+    </div>
+    {% if type in ['string', 'phone', 'email'] %}
+        {% set fieldOption = [
+            {name: "Несодержит", expr: "notContains"},
+            {name: "Содержит", expr: "contains"},
+            {name: "Начинается с", expr: "startBy"},
+            {name: "Заканчивается на", expr: "endsBy"},
+            {name: "Не пусто", expr: "exist"},
+            {name: "Пусто", expr: "missing"},
+            {name: "Равно", expr: "="},
+            {name: "Неравно", expr: "!="},
+        ] %}
+        <select name="filter[{{ name }}][expr]">
+            {% for option in fieldOption %}
+                <option value="{{ option.expr }}" {% if filter[name]['expr'] == option.expr %}selected{% endif %}>
+                    {{ option.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <input name="filter[{{ name }}][var]" value="{{ filter[name]['var'] ?? "" }}"><br>
+    {% endif %}
+    {% if type == 'gender' %}
+        <input type="hidden" name="filter[{{ name }}][expr]" value="contains">
+        <select name="filter[{{ name }}][var]">
+            <option value="" {% if filter[name]['var'] == "" %}selected {% endif %}>
+                Не выбрано
+            </option>
+            <option value="=" {% if filter[name]['var'] == "=" %}selected {% endif %}>
+                Не пусто
+            </option>
+            <option value="!=" {% if filter[name]['var'] == "!=" %}selected {% endif %}>
+                пусто
+            </option>
+            <option value="m" {% if filter[name]['var'] == "m" %} selected{% endif %}>
+                М
+            </option>
+            <option value="f" {% if filter[name]['var'] == "f" %} selected{% endif %}>
+                Ж
+            </option>
+        </select>
+    {% endif %}
+    {% if type == 'date' %}
+        <select name="filter[{{ name }}][expr]">
+            <option value="">
+                не выбрано
+            </option>
+            <option value="exist" {% if filter[name]['expr'] == "exist" %}selected{% endif %}>
+                Пристутсвует
+            </option>
+            <option value="missing" {% if filter[name]['expr'] == "missing" %}selected{% endif %}>
+                Отсутсвует
+            </option>
+            <option value=">" {% if filter[name]['expr'] == ">" %}selected{% endif %}>
+                >
+            </option>
+            <option value="=" {% if filter[name]['expr'] == "=" %}selected{% endif %}>
+                =
+            </option>
+        </select>
+        <input name="filter[{{ name }}][var]" value="{{ filter[name]['var'] ?? "" }}"><br>
+    {% endif %}
+    {% if type == 'number' %}
+        {% set fieldOption = [
+            {name: "не выбрано", expr: ""},
+            {name: "Не пусто", expr: "exist"},
+            {name: "Пусто", expr: "missing"},
+            {name: "Равно", expr: "="},
+            {name: "Неравно", expr: "!="},
+            {name: "Больше", expr: ">"},
+            {name: "Меньше", expr: "<"},
+            {name: "range", expr: "range"},
+            {name: "ranges", expr: "ranges"},
+        ] %}
+        <div class="col-md-2">
+            <select name="filter[{{ name }}][expr]">
+                {% for option in fieldOption %}
+                    <option value="{{ option.expr }}" {% if filter[name]['expr'] == option.expr %}selected{% endif %}>
+                        {{ option.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-1">
+            <input name="filter[{{ name }}][var]" value="{{ filter[name]['var'] ?? "" }}"><br>
+        </div>
+        <div class="col-lg-1">
+            <input name="filter[{{ name }}][var2]" value="{{ filter[name]['var2'] ?? "" }}"><br>
+        </div>
+    {% endif %}
+</div>

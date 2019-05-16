@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Авторизация
+{% endblock title %}
+{% block body %}
+    <div class="simple-login-container">
+        <h2>Авторизация</h2>
+        <form action="{{ action }}" method="post">
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="text" name="login" class="form-control" placeholder="Введите логин">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="password" name="password"  placeholder="Ввидите пароль" class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 form-group">
+                    <input type="submit" class="btn btn-block btn-login">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block stylesheets %}
+<style>
+    body{
+        background-color: #f3cdbf;
+        font-size:14px;
+        color:#fff;
+    }
+    .simple-login-container{
+        width:300px;
+        max-width:100%;
+        margin:50px auto;
+    }
+    .simple-login-container h2{
+        text-align:center;
+        font-size:20px;
+    }
+
+    .simple-login-container .btn-login{
+        background-color: #34ff57;
+        color:#fff;
+    }
+    a{
+        color:#fff;
+    }
+</style>
+{% endblock %}

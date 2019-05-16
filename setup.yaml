@@ -1,0 +1,8 @@
+version: '3'
+services:
+  composer:
+    image: composer:1.8.0
+    user: ${UID}:${GID}
+    working_dir: /code
+    volumes:
+      - ./code:/code

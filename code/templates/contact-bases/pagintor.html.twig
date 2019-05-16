@@ -1,0 +1,61 @@
+{% if totalCount > perPage %}
+    {% set totalCount = totalCount > 10000 ? 10000 : totalCount %}
+    {% set additional = (totalCount % perPage) ? 1 : 0 %}
+    {% set maxPage = (totalCount // perPage ) + additional %}
+    {% set maxPaginationPage = (maxPage > perPage) ? 7 : maxPage %}
+    <ul class="pagination">
+        {% if page == 1 %}
+            <li class="paginate_button page-item previous disabled">
+                <a href="#" aria-controls="example" data-dt-idx="0" tabindex="0" class="page-link">← Предыдущая</a>
+            </li>
+            <li class="paginate_button page-item active">
+                <a href="#" aria-controls="example" data-dt-idx="1" tabindex="0" class="page-link">1</a>
+            </li>
+        {% else %}
+            <li class="paginate_button page-item previous" id="example_previous">
+                <a href="#" aria-controls="example" data-dt-idx="{{ page - 1 }}" tabindex="0" class="page-link pageChange">← Предыдущая</a>
+            </li>
+            <li class="paginate_button page-item ">
+                <a href="#" aria-controls="example" data-dt-idx="1" tabindex="0" class="page-link pageChange">1</a>
+            </li>
+        {% endif %}
+        {% if (page - 1) > 4 %}
+            <li class="paginate_button page-item disabled">
+                <a href="#" aria-controls="example"  tabindex="0" class="page-link">...</a>
+            </li>
+        {% endif %}
+        {% for p in range(-3, 3) %}
+            {% if (p + page) > 1 and (maxPage - (p + page)) > 0 %}
+                {% if (p + page) == page %}
+                    <li class="paginate_button page-item active">
+                        <a href="#" aria-controls="example" data-dt-idx="{{ (p+page) }}" tabindex="0" class="page-link pageChange">{{ (p+page) }}</a>
+                    </li>
+                {% else %}
+                    <li class="paginate_button page-item">
+                        <a href="#" aria-controls="example" data-dt-idx="{{ (p+page) }}" tabindex="0" class="page-link pageChange">{{ (p+page) }}</a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if (maxPage - page) > 4 %}
+            <li class="paginate_button page-item disabled">
+                <a href="#" aria-controls="example"  tabindex="0" class="page-link">...</a>
+            </li>
+        {% endif %}
+        {% if page == maxPage %}
+            <li class="paginate_button page-item ">
+                <a href="#" aria-controls="example" data-dt-idx="{{ maxPage }}" tabindex="0" class="page-link pageChange">{{ maxPage }}</a>
+            </li>
+            <li class="paginate_button page-item next disabled">
+                <a href="#" aria-controls="example" data-dt-idx="0" tabindex="0" class="page-link">Следующая →</a>
+            </li>
+        {% else %}
+            <li class="paginate_button page-item ">
+                <a href="#" aria-controls="example" data-dt-idx="{{ maxPage }}" tabindex="0" class="page-link pageChange">{{ maxPage }}</a>
+            </li>
+            <li class="paginate_button page-item next ">
+                <a href="#" aria-controls="example" data-dt-idx="{{ page + 1 }}" tabindex="0" class="page-link pageChange">Следующая →</a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}

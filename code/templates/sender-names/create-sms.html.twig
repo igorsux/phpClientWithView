@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Создать имя
+{% endblock title %}
+{% block body %}
+    <div class="col-md-12">
+        <a href="{{ path("sender-names") }}" class="btn btn-warning">
+            назад
+        </a>
+        <h2>Создать имя</h2>
+    </div>
+    <form method="post" action="{{ action }}">
+        <div class="col-md-1">
+            <br>
+            Общая информация
+        </div>
+        <div class="col-md-11">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="nameSn">Назавание</label>
+                    <input id="nameSn" class="form-control" type="text" name="name" placeholder="Название">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Инн</label>
+                    <input type="text" class="form-control" name="inn" id="exampleInputPassword1" placeholder="ИНН">
+                </div>
+                <div class="form-group">
+                    <label for="companyName">Название компании</label>
+                    <input type="text" class="form-control" name="companyName" id="companyName" placeholder="название">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input id="nameSn" class="form-control" type="text" name="trademarkFile"
+                           placeholder="trademarkFile">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="licenseAgreement" id="exampleInputPassword1"
+                           placeholder="licenseAgreement">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="companyDocument" id="companyName"
+                           placeholder="companyDocument">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="domainCertificateFile" id="companyName"
+                           placeholder="domainCertificateFile">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="guaranteeScanFile" id="companyName"
+                           placeholder="guaranteeScanFile">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <br>
+            <br>
+            Обператоры
+        </div>
+        <div class="col-md-11">
+            {% for operator in operators if operator.isCanPaidSenderName or operator.canRegisteredSenderName %}
+                <div class="col-md-12" style=" border-left: 1px double #cdb6ac;">
+                    <div class="col-md-3 ">
+                        <br>
+                        <label for="paid_{{ operator.id }}">{{ operator.name }}</label>
+                        <select id="paid_{{ operator.id }}" class="form-control"
+                                name="operator[{{ operator.id }}][paid]">
+                            <option value="free">Беслпатно</option>
+                            {% if operator.isCanPaidSenderName %}
+                                <option value="paid">Платно {{ operator.senderNamePrice }}</option>
+                            {% endif %}
+                        </select>
+                        <br>
+                        {% if operator.isCanPaidSenderName %}
+                            <select class="form-control" name="operator[{{ operator.id }}][period]">
+                                <option value="current">С этого месяца</option>
+                                <option value="next">со следующего</option>
+                            </select>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3 ">
+                        <br>
+                        <br>
+                        {{ operator.specification | raw }}
+                    </div>
+                </div>
+            {% endfor %}
+            <div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <button type="submit" name="status" value="draft" class="btn btn-success">Создать</button>
+                <button type="submit" name="status" value="check" class="btn btn-warning">Отправить на модерацию
+                </button>
+            </div>
+        </div>
+    </form>
+{% endblock body %}

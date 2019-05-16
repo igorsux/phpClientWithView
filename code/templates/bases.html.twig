@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Список баз
+{% endblock title %}
+{% block body %}
+    <div class="col-md-12" style="text-align: center">
+        <h1>Базы контактов</h1>
+    </div>
+    <div class="col-md-12">
+        <form method="GET">
+            <div class="col-md-8">
+                <input class="form-control" name="search" value="{{ search ?? "" }}" placeholder="поиск">
+            </div>
+            <button class="btn btn-info" name="byContact" value="true" type="submit">По контактам</button>
+            <button class="btn btn-info" name="byBase" value="true" type="submit">По базам</button>
+        </form>
+        <br>
+    </div>
+    <div class="col-md-12">
+        <table id="example" class="table">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>Название</th>
+                <th>Созданное</th>
+                <th>Обнавлено</th>
+                <th>кол-контактов</th>
+                <th>ссылка</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for base in bases %}
+                <tr bgcolor= {{ base.color }}>
+                    <th>{{ base.id }}</th>
+                    <th>{{ base.name }}</th>
+                    <th>{{ base.createdAt | date("d-m-y H:i") }}</th>
+                    <th>{{ base.updatedAt | date("d-m-y H:i") }}</th>
+                    <th>{{ base.contactCount }}</th>
+                    <th>
+                        <a href="{{ path('base', {'baseId' : base.id }) }}" class="btn btn-info">
+                            просмотреть
+                        </a>
+                        <a href="{{ path('base-delete', {'baseId' : base.id }) }}" class="btn btn-danger">
+                            Удалить
+                        </a>
+                    </th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="col-md-6">
+            <a href="{{ path('base-create') }}" class="btn btn-info">
+                создать
+            </a>
+            <a href="{{ path('index') }}" class="btn btn-warning">
+                назад
+            </a>
+        </div>
+        <div class="col-md-12">
+            <br>
+            {{ dump(response) }}
+        </div>
+    </div>
+{% endblock body %}

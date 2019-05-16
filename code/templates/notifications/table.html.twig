@@ -1,0 +1,34 @@
+<table class="table table-bordered table-hover">
+    <thead>
+    </thead>
+    <tbody>
+    {% for item in items %}
+        <tr>
+            <th>{{ item.name }}</th>
+            <th>{{ item.type }}</th>
+            <th>{{ item.status }}</th>
+            <th>
+                <a class="btn btn-info" href="{{ path("edit-notifications", {'id': item.id}) }}">
+                    Просмотр
+                </a>
+                <a class="btn btn-danger" href="{{ path("delete-notifications", {'id': item.id}) }}">
+                    удалить
+                </a>
+            </th>
+        </tr>
+    {% endfor %}
+    <tr>
+        <th>ошибка</th>
+        <th>ошибка</th>
+        <th>ошибка</th>
+        <th>
+            <a class="btn btn-info" href="{{ path("edit-notifications", {'id': 999}) }}">
+                Просмотр
+            </a>
+            <a class="btn btn-danger" href="{{ path("delete-notifications", {'id': 999}) }}">
+                удалить
+            </a>
+        </th>
+    </tr>
+    </tbody>
+</table>

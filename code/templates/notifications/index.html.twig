@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Аккаунты уведомлений
+{% endblock title %}
+{% block body %}
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+        <h1>Аккаунты уведомлений</h1>
+    </div>
+    <div class="col-md-12">
+        <br>
+        <div class="col-md-12">
+            <a href="{{ path('create-notifications') }}" class="btn btn-green">
+                Создать
+            </a>
+        </div>
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        {% include 'notifications/table.html.twig' %}
+    </div>
+
+    <div class="col-md-12">
+        <a href="{{ path('index') }}" class="btn btn-secondary">
+            назад
+        </a>
+    </div>
+{% endblock %}

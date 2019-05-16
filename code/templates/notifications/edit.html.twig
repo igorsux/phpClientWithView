@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Аккаунты уведомлений
+{% endblock title %}
+{% block body %}
+    <div class="col-md-2"></div>
+    <div class="col-md-10">
+        <h1>Редактировать аккаунт уведомлений</h1>
+    </div>
+    <div class="col-md-12">
+        <br>
+        {#{{ dump(account) }}#}
+        <br>
+    </div>
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <form method="POST" action="{{ action }}">
+            <div class="form-group">
+                <label for="exampleInputEmail1">
+                    Название
+                </label>
+                <input type="text" name="name" class="form-control" value="{{ account.name ?? "" }}">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">
+                    Тип
+                </label>
+                <input type="text" name="type" class="form-control" value="{{ account.type ?? "email" }}">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">
+                    Адресс
+                </label>
+                <input type="text" name="address" class="form-control" value="{{ account.address ?? "" }}">
+            </div>
+            {% for name, status in account.notifications %}
+                <div class="form-group">
+                    <label for="notify_{{ name }}">
+                        {{ name }}
+                    </label>
+                    <div class="col-md-3 pull-right">
+                        <input id="notify_{{ name }}"
+                               class="check_notify"
+                               name="notifications[{{ name }}]"
+                               type="checkbox"
+                            {% if status == 'on' %}
+                               checked
+                            {% endif %}>
+                    </div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">
+                {% if account.id is defined %}
+                    Обновить
+                {% else %}
+                    Созадть
+                {% endif %}
+            </button>
+        </form>
+    </div>
+{% endblock %}

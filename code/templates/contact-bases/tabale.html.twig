@@ -1,0 +1,43 @@
+<table id="example" class="table table-striped table-bordered table-hover table-responsive" style="width:100%" data-toggle="table" >
+    <thead>
+        <tr>
+            {% for field in fieldsArray %}
+                <th data-field="fruit" data-sortable="true">
+                    {% for map in mapping %}
+                        {% if map.name == field %}
+                            {{ map.title ? map.title : (map.name | trans)}}
+                        {% endif %}
+                    {% endfor %}
+                </th>
+            {% endfor %}
+            <th>
+                Действия
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+        <tr>
+            {% for field in fieldsArray %}
+                <th>
+                    {% if field == 'gender' and item[field] != "" %}
+                        {{ item[field]  | trans }}
+                    {% elseif field == 'birthDate' and item[field] != ""%}
+                        {{ item[field] | date('Y-m-d') }}
+{#                        dump($#}
+                    {% else %}
+                        {{ item[field] ?? ""}}
+                    {% endif %}
+                </th>
+            {% endfor %}
+            <th>
+                {% if item.baseId is defined %}
+                    <a class="btn btn-secondary" href="{{ path('contact', {'baseId': item.baseId , 'contactId': item.id}) }}">
+                        просмотреть
+                    </a>
+                {% endif %}
+            </th>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

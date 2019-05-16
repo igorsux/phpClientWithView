@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Шаблоны имен отправителей
+{% endblock title %}
+{% block body %}
+    <div class="col-md-8">
+        <a  class="btn btn-default" href="{{ path("template-create") }}">Создать</a>
+        <a href="{{ path('index') }}" class="btn btn-warning">
+            назад
+        </a>
+    </div>
+    {% for item in items %}
+        <div class="col-md-8" style="border: 1px double #cdb6ac;">
+            |
+            {% for field in item %}
+                {{ field }} |
+            {% endfor %}
+            <a  href="{{ path('template-show', {'id': item.id, 'type' :  item.senderNameType} ) }}" >Показать</a>
+            <a  href="{#{{ path('template-update', {'id': item.id}) }}#}">Обновить</a>
+            <a style="color: red" href="{{ path('template-delete', {'id': item.id}) }}">Удалить</a>
+        </div>
+    {% endfor %}
+{% endblock body %}

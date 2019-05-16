@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Детализация
+{% endblock title %}
+{% block body %}
+    <div class="col-md-10">
+        <h1>Детализация </h1>
+        <h5>Колличество по фильтру <b>{{ totalCount }}</b></h5>
+    </div>
+    <div class="col-md-10" style="border: 2px double black">
+        <form method="GET" id="filterForm">
+            <div class="row">
+                <input type="hidden" id="page" name="page" value="{{ page ?? 1 }}">
+                <div class="col-md-1">
+                    <label for="typeFilter">Вид сообщения</label><br>
+                    <select style="height: 90px; border: 4px double black " id="typeFilter" name="type[]" multiple>
+                        <option value=""></option>
+                        {% for type in ['sms','viber', 'vk'] %}
+                            <option value="{{ type }}" {% if type in filter.type %} selected {% endif %}>{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <label for="countriesFilter">Страна</label><br>
+                    <select style="height: 150px; border: 4px double black " id="countriesFilter" name="country[]"
+                            multiple>
+                        <option value=""></option>
+                        {% for id, name in countries %}
+                            <option value="{{ id }}" {% if id in filter.country %} selected {% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <label for="operatorFilter">Оператор</label><br>
+                    <select style="height: 170px; border: 4px double black " id="operatorFilter" name="operator[]"
+                            multiple>
+                        <option value=""></option>
+                        {% for id, name in operators %}
+                            <option value="{{ id }}" {% if id in filter.operator %} selected {% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="senderNameFilter">Имя отправителя</label>
+                    <input id="senderNameFilter" type="text" name="senderName" value="{{ filter.senderName ?? '' }}">
+                    <br>
+                </div>
+                <div class="col-md-1">
+                    <label for="statusFilter">Статус</label><br>
+                    <select style="height: 350px; border: 4px double black " id="statusFilter" name="status[]" multiple>
+                        <option value=""></option>
+                        {% for status in statuses %}
+                            <option value="{{ status }}" {% if status in filter.status %} selected {% endif %}>
+                                {{ status }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <label for="sendSourceFilter">Способ</label><br>
+                    <select style="height: 90px; border: 4px double black " id="sendSourceFilter" name="sendSource[]"
+                            multiple>
+                        <option value=""></option>
+                        {% for sendSource in ['lk', 'api', 'smpp'] %}
+                            <option value="{{ sendSource }}" {% if sendSource in filter.sendSource %} selected {% endif %}>
+                                {{ sendSource }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <label for="countriesFilter">Регион</label><br>
+                    Пул регионов
+                </div>
+                <div class="col-md-1">
+                    <label for="paidTypeFilter">Тип имени</label><br>
+                    <select id="paidTypeFilter" name="paidType">
+                        <option value="">не важно</option>
+                        {% for paidType, val  in paidTypes %}
+                            <option value="{{ val }}" {% if val == filter.paidType %} selected {% endif %}>
+                                {{ paidType }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <label for="countriesFilter">Тип тарификации</label><br>
+                    Сервисное транзакционное рекламное
+                </div>
+
+                <div class="col-md-2">
+                    <label for="senderNameFilter">Телефон</label>
+                    <input id="senderNameFilter" type="text" name="phone" value="{{ filter.phone ?? '' }}">
+                    <br>
+                </div>
+                <div class="col-md-2">
+                    <label for="senderNameFilter">Текст</label>
+                    <input id="senderNameFilter" type="text" name="text" value="{{ filter.text ?? '' }}">
+                    <br>
+                </div>
+                <div class="col-md-12">
+                    <input class="btn btn-primary" type="submit">
+                    <a href="{{ resetAction }}" class="btn btn-secondary">Сбросить</a>
+                    <a href="{{ path('index') }}" class="btn btn-secondary">
+                        назад
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-12">
+    </div>
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-9">
+        {% include 'details/tabel.html.twig' %}
+
+        <div class="col-md-8">
+            <div class="dataTables_paginate paging_simple_numbers" id="example_paginate">
+                {% include 'contact-bases/pagintor.html.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+{% block javascripts %}
+    <script language="JavaScript">
+        $(document).ready(function () {
+
+            function updateData() {
+                $('#filterForm').submit();
+            }
+
+            $('.pageChange').click(function () {
+                var page = this.getAttribute('data-dt-idx');
+                console.log(page);
+                if ($('#page').val() != page) {
+                    $('#page').val(page);
+                    updateData();
+                }
+            });
+
+            function orderUpdate(type) {
+                if ($('#orderField').val() == type) {
+                    if ($('#orderDirection').val() == 'desc') {
+                        $('#orderDirection').val('asc');
+                    } else {
+                        $('#orderDirection').val('desc');
+                    }
+                } else {
+                    $('#orderField').val(type);
+                    $('#orderDirection').val('desc');
+                }
+            }
+
+            $('.sort-order').click(function () {
+                orderUpdate(this.getAttribute('orderType'));
+                updateData();
+            });
+
+        });
+    </script>
+{% endblock %}
